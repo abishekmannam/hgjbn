@@ -29,7 +29,7 @@ class _MyAppState extends State<MyApp> {
                   growableList.add(addwidget(title: 'Test1', colour: Colors.red));
                 });
                 },
-                child: Text("tap here to add a new widget below"),
+                child: Text("tap here"),
               ),
             ),
             for(Widget item in growableList) item,
