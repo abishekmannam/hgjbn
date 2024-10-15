@@ -4,59 +4,53 @@ void main(){
   runApp(MyApp());
 }
 
-class MyApp extends StatefulWidget{
-
-  @override
-  State<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  final growableList = <Widget>[];
-
-  @override
-  Widget build(BuildContext context ) {
-    return MaterialApp(
-
-      home:Scaffold(
-        appBar: AppBar(title: Text('Testing')),
-        body:ListView(
-          scrollDirection: Axis.vertical,
-          children: [
-            Center(
-              child: ElevatedButton(
-                onPressed: () {
-                setState(() {
-                  growableList.add(addwidget(title: 'Test1', colour: Colors.red));
-                });
-                },
-                child: Text("tap here"),
-              ),
-            ),
-            for(Widget item in growableList) item,
-            
-          ],
-        )
-      ),
-      
-    );
-
-  }
-} 
-
-class addwidget extends StatelessWidget{
-  addwidget({super.key, required this.title, required this.colour});
-
-  String title;
-  Color colour;
+class MyApp extends StatelessWidget{
+  MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: colour,
-      child: Center(
-        child: Text(title),
-      ),
+    return MaterialApp(
+      title: "To-Do",
+      home: DefaultTabController(
+        length: 2,
+
+        child: Scaffold(
+          appBar: AppBar(
+            title: Text("To-Do List"),
+            bottom: const TabBar(
+              tabs: [
+                Icon(Icons.check_box_outline_blank),
+                Icon(Icons.history),
+                
+              ]
+            ),
+            ),
+
+          body: TabBarView(
+            children: [
+              Text("Todo list"),
+              Text("History"),
+            ]
+            ),
+          
+        ),
+
+        
+
+      )
+      
     );
   }
 
+}
+
+class actual_app extends StatelessWidget{
+  actual_app({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Text("Hello"),
+    );
+  }
 }
