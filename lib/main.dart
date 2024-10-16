@@ -4,8 +4,43 @@ void main(){
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget{
+class MyApp extends StatefulWidget{
+
   MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  var  items = <String>[];
+  var doneitems = <String>[];
+
+  final myController = TextEditingController();
+
+  void addnew(String newone){
+    items.add(newone);
+    setState(() {
+      myController.clear();
+    });
+  }
+
+  void done(int index){
+
+    doneitems.add(items[index]);
+    items.removeAt(index);
+    setState(() {
+    });
+
+  }
+
+  void delete(int index){
+    doneitems.removeAt(index);
+    setState(() {
+    });
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -28,8 +63,33 @@ class MyApp extends StatelessWidget{
 
           body: TabBarView(
             children: [
-              actual_app(),
-              Text("History"),
+              ListView.builder(
+                itemCount: items.length,
+                
+                itemBuilder: (context, index) {
+                  return ListTile(
+                   leading: ElevatedButton(
+                      onPressed: () => done(index),
+                      child: Icon(Icons.check_box_outline_blank),
+                    ),
+                    title: Text(items[index]),
+                  );
+                },
+              ),
+              
+              ListView.builder(
+                itemCount: doneitems.length,
+                
+              itemBuilder: (context, index) {
+                return ListTile(
+                  leading: ElevatedButton(
+                    onPressed: () => delete(index),
+                    child: Icon(Icons.done),
+                    ),
+                  title: Text(doneitems[index]),
+                );
+              },
+              ),
             ]
             ),
           
@@ -41,10 +101,14 @@ class MyApp extends StatelessWidget{
                 border: OutlineInputBorder(),
                 hintText: 'Enter new item',
               ),
+              controller: myController,
             ),
             )),
 
-            ElevatedButton(onPressed: null, child: Icon(Icons.accessibility_new_sharp),)
+            ElevatedButton(
+              onPressed: () => addnew(myController.text), 
+              child: Icon(Icons.accessibility_new_sharp),
+            )
           ],),
         ),
 
@@ -53,34 +117,5 @@ class MyApp extends StatelessWidget{
       )
       
     );
-  }
-
-}
-
-class actual_app extends StatefulWidget{
-  actual_app({super.key});
-
-  @override
-  State<actual_app> createState() => _actual_appState();
-}
-
-class _actual_appState extends State<actual_app> {
-  var  items = <String>["eat", "Sleep", "work"];
-
-
-  @override
-  Widget build(BuildContext context) {
-    return ListView.builder(
-          itemCount: items.length,
-          prototypeItem: ListTile(
-            title: Text(items.first),
-          ),
-          itemBuilder: (context, index) {
-            return ListTile(
-              leading: Icon(Icons.check_box_outline_blank),
-              title: Text(items[index]),
-            );
-          },
-        );
   }
 }
